@@ -21,4 +21,3 @@ say_aloha <- function(name, print = TRUE) {
   beepr::beep(3)
   invisible(message)
 }
-
