@@ -11,13 +11,13 @@ say_aloha <- function(name, print = TRUE) {
 
   message <- paste("Aloha,",
                    name,
-                   emo::ji("palm_tree"),
-                   emo::ji("sunny"),
-                   emo::ji("ocean"))
+                   emo::ji("tropical"),
+                   emo::ji("tropical"),
+                   emo::ji("tropical"))
 
   if (print) {
-    cat(crayon::bgGreen(message))
+    cat(crayon::bgCyan(message))
   }
-
+  beepr::beep(3)
   invisible(message)
 }
