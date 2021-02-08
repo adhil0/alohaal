@@ -11,7 +11,7 @@ The goal of alohaal is to ...
 You can install the released version of alohaal from [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
-install.packages("alohaal")
+devtools::install_github("adhil0/alohaal")
 ```
 
 ## Example
