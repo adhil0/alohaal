@@ -18,10 +18,7 @@ knitr::opts_chunk$set(
 library(alohaal)
 library(tidyverse)
 # Filter out NS, F?, M?, NA
-#pikas_sex <-  alohaal::nwt_pikas %>%filter(sex == "F" | sex == "M")
 pikas_measurements <- alohaal::nwt_pikas %>% filter(rectal_temp != "NS" & weight != "NS" & (sex == "F" | sex == "M"))
-#ggplot(data = pikas_location, aes(x = easting, y = northing)) + geom_point(aes(color = sex))
-#ggplot(data = pikas_measurements, aes(x = neck_circ, y = weight)) + geom_point(aes(color = sex))
 
 ggplot(data = pikas_measurements, aes(x = rectal_temp, y = weight)) + geom_point(aes(color = sex, shape = sex), alpha = 0.8)+theme_minimal()+
   labs(title = "Rectal Temperatures and Weights of Male and Female Pikas",
