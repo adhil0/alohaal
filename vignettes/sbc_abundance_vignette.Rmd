@@ -1,0 +1,25 @@
+---
+title: "sbc_abundance_vignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{sbc_abundance_vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(alohaal)
+library(tidyverse)
+sbc_abundance$SIZE <-
+  replace(sbc_abundance$SIZE, sbc_abundance$SIZE < 0, NA)
+hist <- ggplot(data = sbc_abundance, aes(x = SIZE)) +
+  geom_histogram(alpha = 0.5) + theme_minimal() + scale_fill_manual(values = c("dodgerblue1"))
+hist
+```
