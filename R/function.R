@@ -19,6 +19,5 @@ say_aloha <- function(name, print = TRUE) {
     cat(crayon::bgCyan(message))
   }
   beepr::beep(3)
-
   invisible(message)
 }
