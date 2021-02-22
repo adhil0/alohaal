@@ -21,9 +21,6 @@ anoles <- ggplot(data = lef_anole, aes(x=HEIGHT, y = Tail)) + geom_point(aes(col
 anoles
 ```
 
-```{r}
-ggplot(data = lef_anole, aes(x=HEIGHT, y = Tail)) + geom_point(aes(color = SPECIES, shape = SPECIES), alpha = 0.8) + labs(title = "Height and Tail Length of Anoles By Season of Data Collection")
-```
 
 ```{r}
 sex <- alohaal::lef_anole %>%
