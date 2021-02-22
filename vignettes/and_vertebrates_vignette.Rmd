@@ -3,7 +3,6 @@ title: "and_vertebrates_vignette"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{and_vertebrates_vignette}
-  %\VignetteEngine{knitr::knitr}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
