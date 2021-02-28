@@ -17,15 +17,24 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(alohaal)
 library(tidyverse)
-# Filter out NS, F?, M?, NA
-pikas_measurements <- alohaal::nwt_pikas %>% filter(rectal_temp != "NS" & weight != "NS" & (sex == "F" | sex == "M"))
 
-ggplot(data = pikas_measurements, aes(x = rectal_temp, y = weight)) + geom_point(aes(color = sex, shape = sex), alpha = 0.8)+theme_minimal()+
+ggplot(data = nwt_pikas %>% filter(!is.na(sex)), aes(x = rectal_temp, y = weight)) + geom_point(aes(color = sex, shape = sex), alpha = 0.8) +
+  theme_minimal() +
   labs(title = "Rectal Temperatures and Weights of Male and Female Pikas",
        y = "Weight", x = "Rectal Temperature")
 
-ggplot(data = pikas_measurements, aes(x = sex, y = weight)) + geom_boxplot(aes(color = sex, shape = sex), alpha = 0.8, width = 0.5)+theme_minimal()+
+ggplot(data = nwt_pikas %>% filter(!is.na(sex)), aes(x = sex, y = weight)) + geom_boxplot(aes(color = sex, shape = sex), alpha = 0.8, width = 0.5) +
+  theme_minimal() +
   labs(title = "Weights of Male and Female Pikas",
        y = "Weight")
 
+ggplot(data = nwt_pikas, aes(x = local_site, y = weight)) + geom_boxplot(aes(color = local_site, shape = local_site), alpha = 0.8, width = 0.5) +
+     theme_minimal() +
+     labs(title = "Weights of Male and Female Pikas",
+          y = "Weight")
+
+ggplot(data = nwt_pikas %>% filter(!is.na(stage)), aes(x = stage, y = weight)) + geom_boxplot(aes(color = stage, shape = stage), alpha = 0.8, width = 0.5) +
+     theme_minimal() +
+     labs(title = "Weights of Male and Female Pikas",
+          y = "Weight")
 ```
