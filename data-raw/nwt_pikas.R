@@ -23,7 +23,6 @@ nwt_pikas <- nwt_pikas_raw %>%
     weight,
     stage,
     sex,
-    repro_status,
     fleas_obs,
     rectal_temp,
     foot_length
@@ -44,13 +43,18 @@ nwt_pikas <- nwt_pikas_raw %>%
   mutate(local_site = as.factor(local_site)) %>%
   mutate(sex = as.factor(sex)) %>%
   mutate(stage = as.factor(stage)) %>%
-  mutate(repro_status = as.factor(repro_status)) %>%
-  mutate(stage = recode(
-    stage,
-    "NS" = NA_character_,
-    "A?" = NA_character_,
-    "J?" = NA_character_
-  )) %>%
+  # mutate(repro_status = as.factor(repro_status)) %>%
+  mutate(sex = recode(sex, "M" = "male", "F" = "female")) %>%
+  mutate(
+    stage = recode(
+      stage,
+      "NS" = NA_character_,
+      "A?" = NA_character_,
+      "J?" = NA_character_,
+      "A" = "adult",
+      "J" = "juvenile"
+    )
+  ) %>%
   mutate(sex = recode(
     sex,
     "NS" = NA_character_,
@@ -58,8 +62,6 @@ nwt_pikas <- nwt_pikas_raw %>%
     "M?" = NA_character_
   ))
 
-#nwt_pikas$weight <- as.numeric(nwt_pikas$weight)
-#nwt_pikas$rectal_temp <- as.numeric(nwt_pikas$rectal_temp)
 # Save the data as a data object (.Rda) with usethis::use_data() - this code should already exist in the script, just update the dataset name
 # NOTE: You could do some wrangling HERE to simplify the dataset before storing the .Rda, but we’ll just use it as read in from metajam today
 use_data(nwt_pikas, overwrite = TRUE)

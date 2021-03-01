@@ -24,7 +24,7 @@ library(tidyverse)
 ice_duration <- ggplot(ntl_ice %>% filter(!is.na(ice_duration)), aes(x = year)) +
   geom_line(aes(y = ice_duration, color = lakeid), alpha = 0.7) + 
   theme_minimal() +
-  labs(x = "Year", y = "Ice Duration (Days)", title = "Ice Duration of Madison Lakes")
+  labs(x = "Year", y = "Ice Duration (Days)", title = "Ice Duration ofLakes in the Madison Area")
 ice_duration
 ```
 
@@ -37,7 +37,7 @@ avg_ice <- ntl_ice %>%
 avg_ice_duration <- ggplot(avg_ice %>% filter(!is.na(ice_duration)), aes(x = year, y = ice_duration)) +
   geom_line(alpha = 0.7) + 
   theme_minimal() +
-  geom_smooth(method=lm, se=FALSE, color = "45b6fe") +
+  geom_smooth(method=lm, se=FALSE, color = "blue", linetype="dashed") + #"45b6fe"
   labs(y = "Ice Duration (Days)", x = "Year", title = "Average Ice Duration")
 avg_ice_duration
 ```
