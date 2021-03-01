@@ -14,27 +14,39 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, fig.width = 5, dpi = 100}
 library(alohaal)
 library(tidyverse)
+```
 
-ggplot(data = nwt_pikas %>% filter(!is.na(sex)), aes(x = rectal_temp, y = weight)) + geom_point(aes(color = sex, shape = sex), alpha = 0.8) +
+```{r temps, fig.width = 5, dpi = 100}
+temps <- ggplot(data = nwt_pikas %>% filter(!is.na(sex)), aes(x = rectal_temp, y = weight)) + geom_point(aes(color = sex, shape = sex), alpha = 0.8) +
   theme_minimal() +
-  labs(title = "Rectal Temperatures and Weights of Male and Female Pikas",
+  labs(title = "Rectal Temperatures and Weights of Pikas",
        y = "Weight", x = "Rectal Temperature")
+temps
+```
 
-ggplot(data = nwt_pikas %>% filter(!is.na(sex)), aes(x = sex, y = weight)) + geom_boxplot(aes(color = sex, shape = sex), alpha = 0.8, width = 0.5) +
+```{r weights_sex, fig.width = 5, dpi = 100}
+weights_sex <- ggplot(data = nwt_pikas %>% filter(!is.na(sex)), aes(x = sex, y = weight)) + geom_boxplot(aes(color = sex, shape = sex), alpha = 0.8, width = 0.5) +
   theme_minimal() +
   labs(title = "Weights of Male and Female Pikas",
-       y = "Weight")
+       y = "Weight", x = "Sex")
+weights_sex
+```
 
-ggplot(data = nwt_pikas, aes(x = local_site, y = weight)) + geom_boxplot(aes(color = local_site, shape = local_site), alpha = 0.8, width = 0.5) +
+```{r weights_sites, fig.width = 5, dpi = 100}
+weights_sites <- ggplot(data = nwt_pikas, aes(x = local_site, y = weight)) + geom_boxplot(aes(color = local_site, shape = local_site), alpha = 0.8, width = 0.5) +
      theme_minimal() +
-     labs(title = "Weights of Male and Female Pikas",
-          y = "Weight")
+     labs(title = "Weights of Pikas by Site",
+          y = "Weight (grams)", x = "Sites")
+weights_sites
+```
 
-ggplot(data = nwt_pikas %>% filter(!is.na(stage)), aes(x = stage, y = weight)) + geom_boxplot(aes(color = stage, shape = stage), alpha = 0.8, width = 0.5) +
+```{r weights_stage, fig.width = 5, dpi = 100}
+weights_stage <- ggplot(data = nwt_pikas %>% filter(!is.na(stage)), aes(x = stage, y = weight)) + geom_boxplot(aes(color = stage, shape = stage), alpha = 0.8, width = 0.5) +
      theme_minimal() +
-     labs(title = "Weights of Male and Female Pikas",
-          y = "Weight")
+     labs(title = "Weights of Pikas by Stage",
+          y = "Weight", x = "Stage")
+weights_stage
 ```

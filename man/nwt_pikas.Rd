@@ -5,7 +5,7 @@
 \alias{nwt_pikas}
 \title{Niwot Ridge LTER Pikas}
 \format{
-An object of class \code{spec_tbl_df} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 376 rows and 33 columns.
+An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 376 rows and 11 columns.
 }
 \source{
 {Ray, C. and Niwot Ridge LTER. 2021. Pika demography data for west knoll and Indian Peaks wilderness, 2008 - ongoing ver 4. Environmental Data Initiative. https://doi.org/10.6073/pasta/0a786c99fe3d4e1dfb8c57424ce79091 (Accessed 2021-02-15).}
