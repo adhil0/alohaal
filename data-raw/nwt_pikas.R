@@ -27,11 +27,11 @@ nwt_pikas <- nwt_pikas_raw %>%
     rectal_temp,
     foot_length
   ) %>%
-  mutate(weight = as.numeric(weight)) %>%
-  mutate(fleas_obs = as.numeric(fleas_obs)) %>%
-  mutate(rectal_temp = as.numeric(rectal_temp)) %>%
-  mutate(foot_length = as.numeric(foot_length)) %>%
   mutate(
+    weight = as.numeric(weight),
+    fleas_obs = as.numeric(fleas_obs),
+    rectal_temp = as.numeric(rectal_temp),
+    foot_length = as.numeric(foot_length),
     local_site = recode(
       local_site,
       "WK" = "West Knoll",
@@ -39,13 +39,11 @@ nwt_pikas <- nwt_pikas_raw %>%
       "ML" = "Mitchell Lake",
       "CG" = "Cable Gate"
     )
-  ) %>%
-  mutate(local_site = as.factor(local_site)) %>%
-  mutate(sex = as.factor(sex)) %>%
-  mutate(stage = as.factor(stage)) %>%
-  # mutate(repro_status = as.factor(repro_status)) %>%
-  mutate(sex = recode(sex, "M" = "male", "F" = "female")) %>%
-  mutate(
+    ,
+    local_site = as.factor(local_site),
+    sex = as.factor(sex),
+    stage = as.factor(stage),
+    sex = recode(sex, "M" = "male", "F" = "female"),
     stage = recode(
       stage,
       "NS" = NA_character_,
@@ -54,13 +52,14 @@ nwt_pikas <- nwt_pikas_raw %>%
       "A" = "adult",
       "J" = "juvenile"
     )
-  ) %>%
-  mutate(sex = recode(
-    sex,
-    "NS" = NA_character_,
-    "F?" = NA_character_,
-    "M?" = NA_character_
-  ))
+    ,
+    sex = recode(
+      sex,
+      "NS" = NA_character_,
+      "F?" = NA_character_,
+      "M?" = NA_character_
+    )
+  )
 
 # Save the data as a data object (.Rda) with usethis::use_data() - this code should already exist in the script, just update the dataset name
 # NOTE: You could do some wrangling HERE to simplify the dataset before storing the .Rda, but we’ll just use it as read in from metajam today
