@@ -63,6 +63,5 @@ nwt_pikas <- nwt_pikas_raw %>%
 
 # Save the data as a data object (.Rda) with usethis::use_data() - this code should already exist in the script, just update the dataset name
 # NOTE: You could do some wrangling HERE to simplify the dataset before storing the .Rda, but we’ll just use it as read in from metajam today
-use_data(nwt_pikas, overwrite = TRUE)
 
 usethis::use_data(nwt_pikas, overwrite = TRUE)

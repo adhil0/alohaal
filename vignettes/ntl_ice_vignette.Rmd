@@ -19,25 +19,75 @@ library(alohaal)
 library(tidyverse)
 ```
 
+```{r box_plot, fig.width=5}
+lake_ice <- ggplot(data = ntl_ice %>% filter(!is.na(ice_duration)), aes(x = lakeid, y = ice_duration)) + geom_boxplot(aes(color = lakeid, shape = lakeid), alpha = 0.8, width = 0.5) +
+  theme_minimal() +
+  labs(title = "Ice Duration of Lakes in the Madison Area",
+       y = "Ice Duration (Days)", x = "Lake")
+lake_ice
+```
+
 ```{r ice_duration, fig.width = 5}
 # Add title, labels, update legend, add trendlines
 ice_duration <- ggplot(ntl_ice %>% filter(!is.na(ice_duration)), aes(x = year)) +
   geom_line(aes(y = ice_duration, color = lakeid), alpha = 0.7) + 
   theme_minimal() +
-  labs(x = "Year", y = "Ice Duration (Days)", title = "Ice Duration ofLakes in the Madison Area")
+  labs(x = "Year", y = "Ice Duration (Days)", title = "Ice Duration of Lakes in the Madison Area")
 ice_duration
 ```
+
 
 ```{r avg_ice, fig.width=5}
 # Average Ice duration across all three lakes
 avg_ice <- ntl_ice %>% 
   group_by(year) %>% 
-  summarise(ice_duration = mean(ice_duration))
+  summarise(ice_duration = mean(ice_duration)) %>% 
+  rename(avg_ice_duration = ice_duration)
 
-avg_ice_duration <- ggplot(avg_ice %>% filter(!is.na(ice_duration)), aes(x = year, y = ice_duration)) +
+avg_ice_duration_plot <- ggplot(avg_ice %>% filter(!is.na(avg_ice_duration)), aes(x = year, y = avg_ice_duration)) +
   geom_line(alpha = 0.7) + 
   theme_minimal() +
   geom_smooth(method=lm, se=FALSE, color = "blue", linetype="dashed") + #"45b6fe"
   labs(y = "Ice Duration (Days)", x = "Year", title = "Average Ice Duration")
-avg_ice_duration
+avg_ice_duration_plot
 ```
+
+```{r temp, fig.width = 5}
+ggplot(ntl_ice %>% filter(!is.na(ave_air_temp_adjusted)), aes(x = year, y = ave_air_temp_adjusted)) +
+  geom_line(alpha = 0.7) + 
+  theme_minimal() +
+  geom_smooth(method=lm, se=FALSE, color = "blue", linetype="dashed") + #"45b6fe"
+  labs(y = "Temperature", x = "Year", title = "Mean Annual Temperature in Madison, WI")
+
+```
+```{r scatter, fig.width = 5}
+scatter <- ggplot(data = ntl_ice %>% filter(!is.na(ave_air_temp_adjusted) &
+                               !is.na(ice_duration)), aes(y = ice_duration, x = ave_air_temp_adjusted)) + geom_point(aes(color = lakeid, shape = lakeid), alpha = 0.8) +
+  theme_minimal() +
+  labs(title = "Air Temperature and Ice Duration of Lakes in Madison, WI",
+       y = "Ice Duration (Days)", x = "Temperature (Celsius)") + geom_smooth(method = "lm", color = "black", se = FALSE, size = 0.3)
+scatter
+```
+
+```{r comparison, fig.width = 5}
+### https://www.datanovia.com/en/blog/how-to-create-a-ggplot-with-multiple-lines/
+pct_change <-
+  ntl_ice %>% full_join(avg_ice) %>% mutate(
+    pct_change_temp = (ave_air_temp_adjusted - ave_air_temp_adjusted[17]) *
+      100 / ave_air_temp_adjusted[17],
+    pct_change_ice = (avg_ice_duration - avg_ice_duration[3]) * 100 / avg_ice_duration[3]
+  ) %>% select(year, pct_change_temp, pct_change_ice)
+
+pct_change <- unique(arrange(pct_change,year))
+```
+
+```{r, fig.width = 5}
+comparison_df <- pct_change  %>% pivot_longer(cols = c(pct_change_ice, pct_change_temp)) 
+
+
+ggplot(comparison_df %>% filter((name == "pct_change_ice" & !is.na(value)) | name == "pct_change_temp"), aes(x = year)) +
+  geom_line(aes(y = value, color = name)) +
+  theme_minimal() +
+  labs(x = "Year", y = "Percent Change", title = "Percent Change in Ice Duration and Temperature")
+```
+
