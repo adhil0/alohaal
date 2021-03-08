@@ -19,22 +19,31 @@ library(alohaal)
 library(tidyverse)
 ```
 
+There are concerns that clear cutting forests can negatively impact wildlife that inhabit these areas. We can examine various physical characteristics of coastal cutthroat trout to see if, on average, they have been affected by logging.
+
+Compare the length of trout in clear cut and old growth forests:
+
 ```{r}
 # Make a subset for cutthroat trout:
 cutthroat <- and_vertebrates %>%
 filter(SPECIES == "Coastal Cutthroat Trout")
 
-# Create a scatter plot of length versus weight:
 ggplot(data = cutthroat, aes(x = SECTION, y = LENGTH1)) +
  		 geom_boxplot(aes(color = SECTION), outlier.shape = NA) +
   theme_minimal() #+ ylim(0, 25)
 
 ```
-
+Compare weights:
 
 ```{r}
-# abundance per year per species
+ggplot(data = cutthroat, aes(x = SECTION, y = WEIGHT)) +
+ 		 geom_boxplot(aes(color = SECTION), outlier.shape = NA) +
+  theme_minimal() + ylim(0, 40)
 ```
+
+Both weight and length seem to be similar in old growth and clear cut forests. 
+
+Do weight and length change over time?
 
 ```{r}
 weights <- cutthroat %>% filter(!is.na(WEIGHT)) %>% 
@@ -44,6 +53,9 @@ weights <- cutthroat %>% filter(!is.na(WEIGHT)) %>%
 ggplot(weights, aes(x=YEAR)) + geom_line(aes(y = WEIGHT)) + theme_minimal()
 ```
 
+The average weight of trout drops considerably in 1993, 1994, and 1998, but this may be due to collection methods, as there are several null values in in the weight column for these years.
+
+
 ```{r}
 lengths <- cutthroat %>% filter(!is.na(LENGTH1)) %>% 
   group_by(YEAR) %>% 
@@ -52,8 +64,12 @@ lengths <- cutthroat %>% filter(!is.na(LENGTH1)) %>%
 ggplot(lengths, aes(x=YEAR)) + geom_line(aes(y = LENGTH1)) + theme_minimal()
 ```
 
+The lengths of trout seem to be gradually decreasing with time. 
+
 ```{r}
-counts <- cutthroat %>% count(SECTION)
-ggplot(counts, aes(x=YEAR)) + geom_line(aes(y = n)) + theme_minimal()
+counts <- cutthroat %>% count(YEAR)
+ggplot(counts, aes(x=YEAR)) + geom_line(aes(y = n)) + theme_minimal() + labs(title = "Abundance of Cutthroat Trout", x = "Year", y = "Number of Trout")
 
 ```
+
+Citation: Gregory, S.V. and I. Arismendi. 2020. Aquatic Vertebrate Population Study in Mack Creek, Andrews Experimental Forest, 1987 to present ver 14. Environmental Data Initiative. https://doi.org/10.6073/pasta/7c78d662e847cdbe33584add8f809165 (Accessed 2021-03-08).
