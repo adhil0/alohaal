@@ -77,8 +77,9 @@ The average ice duration in Madison is trending downwards. What environmental fa
 Time Series Plot:
 
 ```{r temp, fig.width = 5}
-temp_plot <- ggplot(ntl_ice %>% filter(!is.na(ave_air_temp_adjusted)),
-       aes(x = year, y = ave_air_temp_adjusted)) +
+temp_plot <-
+  ggplot(ntl_ice %>% filter(!is.na(ave_air_temp_adjusted)),
+         aes(x = year, y = ave_air_temp_adjusted)) +
   geom_line(alpha = 0.7) +
   theme_minimal() +
   geom_smooth(
@@ -86,8 +87,8 @@ temp_plot <- ggplot(ntl_ice %>% filter(!is.na(ave_air_temp_adjusted)),
     se = FALSE,
     color = "blue",
     linetype = "dashed"
-  ) + #"45b6fe"
-  labs(y = "Temperature", x = "Year", title = "Mean Annual Temperature in Madison, WI")
+  )
+labs(y = "Temperature", x = "Year", title = "Mean Annual Temperature in Madison, WI")
 temp_plot
 ```
 
@@ -138,9 +139,11 @@ comparison_df <-
 Time Series Plot:
 
 ```{r, fig.width=5}
-comparison_plot <- ggplot(comparison_df %>% filter((name == "pct_change_ice" &
-                                   !is.na(value)) | name == "pct_change_temp"),
-       aes(x = year)) +
+comparison_plot <-
+  ggplot(comparison_df %>% filter((name == "pct_change_ice" &
+                                     !is.na(value)) |
+                                    name == "pct_change_temp"),
+         aes(x = year)) +
   geom_line(aes(y = value, color = name)) +
   theme_minimal() +
   labs(x = "Year", y = "Percent Change", title = "Percent Change in Ice Duration and Temperature")
