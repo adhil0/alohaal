@@ -26,29 +26,29 @@ Pikas are used as an indicator species for alpine ecosystems. If pikas are doing
 
 We can investigate various factors and their impact on stress in pikas. For instance, pikas have  been observed to live higher and higher on mountains due to warming temperatures at lower elevations. Is there a relationship between elevation and stress?
 
-```{r}
+```{r, fig.width=5}
 ggplot(data = nwt_stress, aes(y = Elev_M, x = Concentration_pg_g)) + geom_point(alpha = 0.8) +
   theme_minimal() +
-  labs(title = "Rectal Temperatures and Weights of Pikas",
-       y = "Elevation", x = "Concentration of Stress ")
+  labs(title = "Stress of Pikas at Different Elevations",
+       y = "Elevation", x = "GCM Concentration (pg/g) ")
 ```
 
 It does not appear that there is a relationship between elevation and stress in pikas.
 
 Is there any difference in stress across sites?
 
-``` {r}
+``` {r, fig.width=5}
 ggplot(data = nwt_stress, aes(x = Site, y = Concentration_pg_g)) + geom_boxplot(aes(color = Site, shape = Site), alpha = 0.8, width = 0.5) +
      theme_minimal() +
-     labs(title = "Weights of Pikas by Site",
-          y = "Weight (grams)", x = "Sites")
+     labs(title = "Stress of Pikas by Site",
+          y = "GCM Concentration (pg/g)", x = "Sites")
 ```
 
 Stress seems to be similarly distributed for each site, so it doesn't appear that location has an effect on stress.
 
 Find the average stress over time:
 
-```{r}
+```{r, fig.width = 5}
 nwt_avg <- nwt_stress %>% 
   group_by(Date) %>% 
   summarise(Concentration_pg_g = mean(Concentration_pg_g))
@@ -56,7 +56,7 @@ nwt_avg <- nwt_stress %>%
 ggplot(nwt_avg, aes(x = Date)) +
   geom_line(aes(y = Concentration_pg_g) )+ 
   theme_minimal() +
-  labs(x = "Date", y = "Average Stress", title = "Stress in Pikas Over Time")
+  labs(x = "Date", y = "Average GCM Concentration (pg/g)", title = "Stress in Pikas Over Time")
 
 ```
 
@@ -69,8 +69,14 @@ As a result, climate change may have a large effect on the future well-being of 
 #sub surface ice vs no subsurface ice (Spring v Fall)
 #elevation, slope, or aspect
 #sex
-#temporal vs spatial(same across all sites, so more about time and general climate)
+
+ggplot(data = nwt_stress %>% filter(!is.na(stage)), aes(x = Sex, y = Concentration_pg_g)) + geom_boxplot(aes(color = Sex, shape = Sex), alpha = 0.8, width = 0.5) +
+     theme_minimal() +
+     labs(title = "Weights of Pikas by Stage",
+          y = "GCM Concentration (pg/g)", x = "Sex")
 ```
+Maybe there is some sort of behavioral or biological reason why male pikas are more stressed.
+
 
 
 Citation: Whipple, A. and Niwot Ridge LTER. 2020. Physiological stress of American pika (Ochotona princeps) and associated habitat characteristics for Niwot Ridge, 2018 - 2019 ver 1. Environmental Data Initiative. https://doi.org/10.6073/pasta/9f95baf55f98732f47a8844821ff690d (Accessed 2021-03-08).
