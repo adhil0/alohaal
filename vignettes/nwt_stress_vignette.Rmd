@@ -1,0 +1,45 @@
+---
+title: "nwt_stress_vignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{nwt_stress_vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, fig.width = 5, dpi = 100}
+library(alohaal)
+library(tidyverse)
+```
+
+```{r}
+ggplot(data = nwt_stress, aes(y = Elev_M, x = Concentration_pg_g)) + geom_point(aes(color = Station), alpha = 0.8) +
+  theme_minimal() +
+  labs(title = "Rectal Temperatures and Weights of Pikas",
+       y = "Weight", x = "Rectal Temperature")
+```
+``` {r}
+ggplot(data = nwt_stress, aes(x = Station, y = Concentration_pg_g)) + geom_boxplot(aes(color = Station, shape = Station), alpha = 0.8, width = 0.5) +
+     theme_minimal() +
+     labs(title = "Weights of Pikas by Site",
+          y = "Weight (grams)", x = "Sites")
+```
+
+```{r}
+nwt_avg <- nwt_stress %>% 
+  group_by(Date) %>% 
+  summarise(Concentration_pg_g = mean(Concentration_pg_g))
+
+ggplot(nwt_avg, aes(x = Date)) +
+  geom_line(aes(y = Concentration_pg_g) )+ 
+  theme_minimal() +
+  labs(x = "Year", y = "Ice Duration (Days)", title = "Ice Duration of Lakes in the Madison Area")
+
+```
