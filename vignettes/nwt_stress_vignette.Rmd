@@ -64,15 +64,9 @@ It appears that stress changes with seasons and the climate rather than due to g
 As a result, climate change may have a large effect on the future well-being of pikas.
 
 ```{r}
-#stress vs body mass
-#abundance per sitte
-#sub surface ice vs no subsurface ice (Spring v Fall)
-#elevation, slope, or aspect
-#sex
-
 ggplot(data = nwt_stress %>% filter(!is.na(stage)), aes(x = Sex, y = Concentration_pg_g)) + geom_boxplot(aes(color = Sex, shape = Sex), alpha = 0.8, width = 0.5) +
      theme_minimal() +
-     labs(title = "Weights of Pikas by Stage",
+     labs(title = "Stress of Pikas by Sex",
           y = "GCM Concentration (pg/g)", x = "Sex")
 ```
 Maybe there is some sort of behavioral or biological reason why male pikas are more stressed.
