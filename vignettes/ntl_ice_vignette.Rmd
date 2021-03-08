@@ -31,6 +31,7 @@ lake_ice <-
        y = "Ice Duration (Days)", x = "Lake")
 lake_ice
 ```
+
 Time Series Plot:
 
 ```{r ice_duration, fig.width = 5}
@@ -136,7 +137,7 @@ comparison_df <-
 
 Time Series Plot:
 
-```{r}
+```{r, fig.width=5}
 comparison_plot <- ggplot(comparison_df %>% filter((name == "pct_change_ice" &
                                    !is.na(value)) | name == "pct_change_temp"),
        aes(x = year)) +
