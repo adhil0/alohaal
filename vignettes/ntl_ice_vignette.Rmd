@@ -65,7 +65,7 @@ avg_ice_duration_plot <-
     se = FALSE,
     color = "blue",
     linetype = "dashed"
-  ) + #"45b6fe"
+  ) + 
   labs(y = "Ice Duration (Days)", x = "Year", title = "Average Ice Duration")
 avg_ice_duration_plot
 ```
@@ -87,8 +87,8 @@ temp_plot <-
     se = FALSE,
     color = "blue",
     linetype = "dashed"
-  )
-labs(y = "Temperature", x = "Year", title = "Mean Annual Temperature in Madison, WI")
+  ) +
+  labs(y = "Temperature", x = "Year", title = "Mean Annual Temperature in Madison, WI")
 temp_plot
 ```
 
