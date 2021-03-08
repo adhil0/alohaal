@@ -21,11 +21,39 @@ library(tidyverse)
 
 ```{r}
 # Make a subset for cutthroat trout:
-cutthroat <- alohaal::and_vertebrates %>%
-filter(SPECIES == "ONCL")
+cutthroat <- and_vertebrates %>%
+filter(SPECIES == "Coastal Cutthroat Trout")
 
 # Create a scatter plot of length versus weight:
-ggplot(data = cutthroat, aes(x = LENGTH1, y = WEIGHT)) +
- 		 geom_point()
+ggplot(data = cutthroat, aes(x = SECTION, y = LENGTH1)) +
+ 		 geom_boxplot(aes(color = SECTION), outlier.shape = NA) +
+  theme_minimal() #+ ylim(0, 25)
+
+```
+
+
+```{r}
+# abundance per year per species
+```
+
+```{r}
+weights <- cutthroat %>% filter(!is.na(WEIGHT)) %>% 
+  group_by(YEAR) %>% 
+  summarise(WEIGHT = mean(WEIGHT))
+
+ggplot(weights, aes(x=YEAR)) + geom_line(aes(y = WEIGHT)) + theme_minimal()
+```
+
+```{r}
+lengths <- cutthroat %>% filter(!is.na(LENGTH1)) %>% 
+  group_by(YEAR) %>% 
+  summarise(LENGTH1 = mean(LENGTH1))
+
+ggplot(lengths, aes(x=YEAR)) + geom_line(aes(y = LENGTH1)) + theme_minimal()
+```
+
+```{r}
+counts <- cutthroat %>% count(SECTION)
+ggplot(counts, aes(x=YEAR)) + geom_line(aes(y = n)) + theme_minimal()
 
 ```

@@ -19,18 +19,34 @@ library(alohaal)
 library(tidyverse)
 ```
 
+https://bcna.org/library/grantreports/BCNA_endOfYearReport_AshleyWhipple.pdf
+file:///Users/adhityalogan/Downloads/Whipple_colorado_0051N_16398-1.pdf
+
+Pikas are used as an indicator species for alpine ecosystems. If pikas are doing well, then the surrounding areas are also doing well from an ecological standpoint. The well-being of pikas can be measured by their stress levels. As the climate continues to change, there is concern that pikas will become more stressed, and that the nearby ecosystem will also begin to suffer. As a result, it's important to understand the causes of stress in pikas.
+
+We can investigate various factors and their impact on stress in pikas. For instance, pikas have  been observed to live higher and higher on mountains due to warming temperatures at lower elevations. Is there a relationship between elevation and stress?
+
 ```{r}
-ggplot(data = nwt_stress, aes(y = Elev_M, x = Concentration_pg_g)) + geom_point(aes(color = Station), alpha = 0.8) +
+ggplot(data = nwt_stress, aes(y = Elev_M, x = Concentration_pg_g)) + geom_point(alpha = 0.8) +
   theme_minimal() +
   labs(title = "Rectal Temperatures and Weights of Pikas",
-       y = "Weight", x = "Rectal Temperature")
+       y = "Elevation", x = "Concentration of Stress ")
 ```
+
+It does not appear that there is a relationship between elevation and stress in pikas.
+
+Is there any difference in stress across sites?
+
 ``` {r}
-ggplot(data = nwt_stress, aes(x = Station, y = Concentration_pg_g)) + geom_boxplot(aes(color = Station, shape = Station), alpha = 0.8, width = 0.5) +
+ggplot(data = nwt_stress, aes(x = Site, y = Concentration_pg_g)) + geom_boxplot(aes(color = Site, shape = Site), alpha = 0.8, width = 0.5) +
      theme_minimal() +
      labs(title = "Weights of Pikas by Site",
           y = "Weight (grams)", x = "Sites")
 ```
+
+Stress seems to be similarly distributed for each site, so it doesn't appear that location has an effect on stress.
+
+Find the average stress over time:
 
 ```{r}
 nwt_avg <- nwt_stress %>% 
@@ -40,6 +56,21 @@ nwt_avg <- nwt_stress %>%
 ggplot(nwt_avg, aes(x = Date)) +
   geom_line(aes(y = Concentration_pg_g) )+ 
   theme_minimal() +
-  labs(x = "Year", y = "Ice Duration (Days)", title = "Ice Duration of Lakes in the Madison Area")
+  labs(x = "Date", y = "Average Stress", title = "Stress in Pikas Over Time")
 
 ```
+
+It appears that stress changes with seasons and the climate rather than due to geographic location.
+As a result, climate change may have a large effect on the future well-being of pikas.
+
+```{r}
+#stress vs body mass
+#abundance per sitte
+#sub surface ice vs no subsurface ice (Spring v Fall)
+#elevation, slope, or aspect
+#sex
+#temporal vs spatial(same across all sites, so more about time and general climate)
+```
+
+
+Citation: Whipple, A. and Niwot Ridge LTER. 2020. Physiological stress of American pika (Ochotona princeps) and associated habitat characteristics for Niwot Ridge, 2018 - 2019 ver 1. Environmental Data Initiative. https://doi.org/10.6073/pasta/9f95baf55f98732f47a8844821ff690d (Accessed 2021-03-08).
