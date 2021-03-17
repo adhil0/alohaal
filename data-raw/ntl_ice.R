@@ -2,6 +2,7 @@
 # Attach packages
 library(usethis)
 library(metajam)
+library(tidyverse)
 
 #------------------------------------------------------------------------------
 ntl_temp_url <-
@@ -17,7 +18,7 @@ ntl_temp_raw <- ntl_temp_files$data
 
 ntl_temp <- ntl_temp_raw %>%
   select(year4,
-         ave_air_temp_adjusted)
+         ave_air_temp_adjusted) %>%
          #precip_raw_mm,
          #snow_raw_cm,
          #snow_depth_cm) %>%

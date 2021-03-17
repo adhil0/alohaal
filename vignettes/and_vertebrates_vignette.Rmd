@@ -72,4 +72,7 @@ ggplot(counts, aes(x=YEAR)) + geom_line(aes(y = n)) + theme_minimal() + labs(tit
 
 ```
 
+Since the abundance of trout are increasing with time, it does not appear that clearcut forests have an effect on their health, but further research is required.
+
+
 Citation: Gregory, S.V. and I. Arismendi. 2020. Aquatic Vertebrate Population Study in Mack Creek, Andrews Experimental Forest, 1987 to present ver 14. Environmental Data Initiative. https://doi.org/10.6073/pasta/7c78d662e847cdbe33584add8f809165 (Accessed 2021-03-08).

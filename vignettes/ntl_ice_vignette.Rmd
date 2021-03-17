@@ -23,9 +23,10 @@ According to the [EPA](https://www.epa.gov/climate-indicators/climate-change-ind
 
 ```{r box_plot, fig.width=5}
 lake_ice <-
-  ggplot(data = ntl_ice %>% filter(!is.na(ice_duration)), aes(x = lakeid, y = ice_duration)) + geom_boxplot(aes(color = lakeid, shape = lakeid),
-                                                                                                            alpha = 0.8,
-                                                                                                            width = 0.5) +
+  ggplot(data = ntl_ice %>% filter(!is.na(ice_duration)), aes(x = lakeid, y = ice_duration)) +
+  geom_boxplot(aes(color = lakeid, shape = lakeid),
+               alpha = 0.8,
+               width = 0.5) +
   theme_minimal() +
   labs(title = "Ice Duration of Lakes in the Madison Area",
        y = "Ice Duration (Days)", x = "Lake")
