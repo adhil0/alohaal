@@ -12,12 +12,11 @@ LazyData: true
 URL: https://github.com/adhil0/alohaal
 BugReports: https://github.com/adhil0/alohaal/issues
 RoxygenNote: 7.1.1
-Imports: crayon, emo, beepr
+Imports: crayon, emo, beepr, tidyverse
 Remotes: hadley/emo
 Suggests: testthat,
     knitr,
     rmarkdown
 VignetteBuilder: knitr, tidyverse
 Depends: 
-    R (>= 2.10),
-    tidyverse
+    R (>= 2.10)
