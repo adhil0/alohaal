@@ -1,5 +1,12 @@
+#' Says Aloha to a friend
+#'
+#' @param name a character
+#' @param print
+#'
+#' @return (character) An aloha message
+#' @export
+#'
 #' @examples hello()
-
 # Hello, world!
 #
 # This is an example function named 'hello'
