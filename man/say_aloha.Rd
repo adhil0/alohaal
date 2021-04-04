@@ -9,7 +9,7 @@ say_aloha(name, print = TRUE)
 \arguments{
 \item{name}{a character}
 
-\item{print}{}
+\item{print}{a logical}
 }
 \value{
 (character) An aloha message
