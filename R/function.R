@@ -1,7 +1,7 @@
 #' Says Aloha to a friend
 #'
 #' @param name a character
-#' @param print
+#' @param print a logical
 #'
 #' @return (character) An aloha message
 #' @export
