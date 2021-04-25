@@ -17,8 +17,55 @@ knitr::opts_chunk$set(
 ```{r setup, fig.width = 5, dpi = 100}
 library(alohaal)
 library(tidyverse)
+library(ggmap)
+library(sf)
 ```
 
+```{r}
+ggplot() +
+  geom_point(data = nwt_pikas, aes(
+    x = easting,
+    y = northing,
+    color = local_site,
+    alpha = 0.4
+  ))
+
+
+nwt_coords <-
+  nwt_pikas %>% filter(!is.na(easting) &
+                         !is.na(northing)) #%>% mutate(year = as.integer(year))
+test <- st_as_sf(nwt_coords, coords = c("easting", "northing"))
+ggplot(data = test) + geom_sf(aes(color = local_site, shape = local_site), alpha = 0.3) +
+  guides(colour = guide_legend(override.aes = list(alpha = 1))) +
+  scale_x_discrete(guide = guide_axis(check.overlap = TRUE)) +
+  theme_minimal() +
+  labs(title = "Location of Pika Samples")
+
+ggplot(data = nwt_pikas) +
+  stat_density2d(aes(fill = ..level.., x = easting, y = northing), alpha = .5,
+                 geom = "polygon") + 
+  scale_fill_viridis_c()  + 
+  theme_minimal() +
+  labs(title = "Location of Pika Samples")
+
+nwt <- c(left = -106, bottom = 39.8433, right = -105, top = 40.2339)
+
+ggmap(get_stamenmap(nwt, zoom = 11, maptype = "terrain"))
+test$geometry <- st_set_crs(test$geometry, "+proj=utm +zone=13 +datum=WGS84")
+s.sf.gcs <- st_transform(test$geometry, "+proj=longlat +datum=WGS84")
+ggmap(get_stamenmap(nwt, zoom = 11, maptype = "terrain")) + #geom_point(data = nwt_pikas, aes(
+#  x = easting,
+#  y = northing,
+#  color = local_site,
+#  alpha = 1)) 
+geom_sf(data = s.sf.gcs, alpha = 0.3, inherit.aes = FALSE)
+
+```
+
+```{r}
+nwt_pikas %>% count(year) %>% ggplot(aes(x = year, y = n)) +
+  geom_bar(stat = "identity")
+```
 ```{r temps, fig.width = 5, dpi = 100}
 temps <- ggplot(data = nwt_pikas %>% filter(!is.na(sex)), aes(x = rectal_temp, y = weight)) + geom_point(aes(color = sex, shape = sex), alpha = 0.8) +
   theme_minimal() +
