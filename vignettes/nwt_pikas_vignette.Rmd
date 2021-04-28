@@ -22,6 +22,15 @@ library(sf)
 ```
 
 ```{r}
+# Explain pikas and NWT
+# start with explaining importance of geographical plots
+# Explain sf
+# do a simple sf demonstration with colorado
+# explain ggmap
+# do a simple ggmap demonstration
+# combine them and analyze findings
+
+
 ggplot() +
   geom_point(data = nwt_pikas, aes(
     x = easting,
@@ -50,15 +59,29 @@ ggplot(data = nwt_pikas) +
 
 nwt <- c(left = -106, bottom = 39.8433, right = -105, top = 40.2339)
 
+pikas_location <-c(left = -105.65, bottom = 40, right = -105.55, top = 40.12)
+
 ggmap(get_stamenmap(nwt, zoom = 11, maptype = "terrain"))
 test$geometry <- st_set_crs(test$geometry, "+proj=utm +zone=13 +datum=WGS84")
-s.sf.gcs <- st_transform(test$geometry, "+proj=longlat +datum=WGS84")
-ggmap(get_stamenmap(nwt, zoom = 11, maptype = "terrain")) + #geom_point(data = nwt_pikas, aes(
-#  x = easting,
-#  y = northing,
+test$s.sf.gcs <- st_transform(test$geometry, "+proj=longlat +datum=WGS84")
+test$geometry <- test$s.sf.gcs
+ggmap(get_stamenmap(pikas_location, zoom = 11, maptype = "terrain")) + # geom_point(data = test, aes(
+# x = easting,
+# y = northing,
 #  color = local_site,
-#  alpha = 1)) 
-geom_sf(data = s.sf.gcs, alpha = 0.3, inherit.aes = FALSE)
+# alpha = 1)) 
+#geom_sf(data = test$geometry, alpha = 0.3, inherit.aes = FALSE)
+#geom_sf(data = test, aes(color = local_site, shape = local_site), alpha = 0.3) +
+#  guides(colour = guide_legend(override.aes = list(alpha = 1))) +
+##  scale_x_discrete(guide = guide_axis(check.overlap = TRUE)) +
+#  theme_minimal() +
+#  labs(title = "Location of Pika Samples")
+
+ geom_sf(data = test, inherit.aes = FALSE, aes(color = local_site, shape = local_site), alpha = 0.3) +
+  guides(colour = guide_legend(override.aes = list(alpha = 1))) +
+  #scale_x_discrete(guide = guide_axis(check.overlap = TRUE)) +
+  theme_minimal() +
+  labs(title = "Location of Pika Samples")
 
 ```
 

@@ -16,7 +16,10 @@ Imports: crayon, emo, beepr, tidyverse
 Remotes: hadley/emo
 Suggests: testthat,
     knitr,
-    rmarkdown
+    rmarkdown,
+    tidyverse,
+    ggmap,
+    sf
 VignetteBuilder: knitr, tidyverse
 Depends: 
     R (>= 2.10)
