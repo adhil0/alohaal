@@ -120,3 +120,6 @@ weights_stage <- ggplot(data = nwt_pikas %>% filter(!is.na(stage)), aes(x = stag
           y = "Weight", x = "Stage")
 weights_stage
 ```
+
+# How we processed the raw data
+`r knitr::spin_child(here::here("data-raw", "ntl_temps_data.R"))`

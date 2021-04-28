@@ -159,3 +159,5 @@ Anderson, L. and D. Robertson. 2020. Madison Wisconsin Daily Meteorological Data
 
 Magnuson, J.J., S.R. Carpenter, and E.H. Stanley. 2021. North Temperate Lakes LTER: Ice Duration - Madison Lakes Area 1853 - current ver 35. Environmental Data Initiative. https://doi.org/10.6073/pasta/ab31f2489ee436beb73fc8f1d0213d97 (Accessed 2021-03-08).
 
+# How we processed the raw data
+`r knitr::spin_child(here::here("data-raw", "nwt_pikas_data.R"))`
