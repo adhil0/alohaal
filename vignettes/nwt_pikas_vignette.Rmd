@@ -86,8 +86,8 @@ ggmap(get_stamenmap(pikas_location, zoom = 11, maptype = "terrain")) + # geom_po
 ```
 
 ```{r}
-nwt_pikas %>% count(year) %>% ggplot(aes(x = year, y = n)) +
-  geom_bar(stat = "identity")
+#nwt_pikas %>% count(year) %>% ggplot(aes(x = year, y = n)) +
+#  geom_bar(stat = "identity")
 ```
 ```{r temps, fig.width = 5, dpi = 100}
 temps <- ggplot(data = nwt_pikas %>% filter(!is.na(sex)), aes(x = rectal_temp, y = weight)) + geom_point(aes(color = sex, shape = sex), alpha = 0.8) +
