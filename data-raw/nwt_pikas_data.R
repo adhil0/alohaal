@@ -1,8 +1,17 @@
-## code to prepare `nwt_pikas` dataset goes here
+#' ---
+#' title: "Data Preparation"
+#' ---
+
+#' ### Download the raw data from EDI.org
+
+#+ download_data, eval=FALSE
 library(usethis)
 library(metajam)
+library(tidyverse)
+library(janitor)
 
-# Save link location for the data package:
+# Pika demography data for west knoll and Indian Peaks wilderness, 2008 - ongoing
+# Main URL: https://doi.org/10.6073/pasta/0a786c99fe3d4e1dfb8c57424ce79091
 nwt_url <-
   "https://portal.edirepository.org/nis/dataviewer?packageid=knb-lter-nwt.8.4&entityid=4b6b9b433b678118b17c16e5827edf1f"
 
@@ -10,11 +19,12 @@ nwt_url <-
 nwt_download <-
   download_d1_data(data_url = nwt_url, path = tempdir())
 
+#' ### Data cleaning
+#+ data sampling, eval=FALSE
 # Read in data
 nwt_files <- read_d1_files(nwt_download)
 nwt_pikas_raw <- nwt_files$data
 nwt_pikas <- nwt_pikas_raw %>%
-  #clean_names() %>%
   select(
     local_site,
     date,
@@ -59,9 +69,9 @@ nwt_pikas <- nwt_pikas_raw %>%
       "F?" = NA_character_,
       "M?" = NA_character_
     )
-  )
+  ) %>%
+  clean_names()
 
-# Save the data as a data object (.Rda) with usethis::use_data() - this code should already exist in the script, just update the dataset name
-# NOTE: You could do some wrangling HERE to simplify the dataset before storing the .Rda, but we’ll just use it as read in from metajam today
-
-usethis::use_data(nwt_pikas, overwrite = TRUE)
+#+ save data, include=FALSE, eval = FALSE
+## Save sample file
+use_data(nwt_pikas, overwrite = TRUE)

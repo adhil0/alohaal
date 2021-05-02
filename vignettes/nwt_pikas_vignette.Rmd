@@ -22,73 +22,124 @@ library(sf)
 ```
 
 ```{r}
-# Explain pikas and NWT
-# start with explaining importance of geographical plots
-# Explain sf
-# do a simple sf demonstration with colorado
-# explain ggmap
-# do a simple ggmap demonstration
-# combine them and analyze findings
+Researchers at the Niwot Ridge Long Term Ecological Research Site (NWT LTER) seek to study and monitor the health of the Colorado Rockies over time. Because of external factors like climate change, it's more important than ever for scientists to understand how and why the Rockies are changing. Additionally, the state of the Rockies is crucial to local communities like Boulder, CO.
 
+Pikas are a key species present at the NWT LTER. Despite their small size, pikas can be very informative about the health of the ecosystem because of their need for cold temperatures. The health of pikas can reflect the health of the surrounding ecosystem, and as a result, the study of pikas is critical to the study of the Colorado Rockies ecosystem and its health. 
 
-ggplot() +
-  geom_point(data = nwt_pikas, aes(
-    x = easting,
-    y = northing,
-    color = local_site,
-    alpha = 0.4
-  ))
+Let's explore some demography data about pikas:
 
+```{r}
+head(nwt_pikas)
+```
 
-nwt_coords <-
-  nwt_pikas %>% filter(!is.na(easting) &
-                         !is.na(northing)) #%>% mutate(year = as.integer(year))
-test <- st_as_sf(nwt_coords, coords = c("easting", "northing"))
-ggplot(data = test) + geom_sf(aes(color = local_site, shape = local_site), alpha = 0.3) +
-  guides(colour = guide_legend(override.aes = list(alpha = 1))) +
-  scale_x_discrete(guide = guide_axis(check.overlap = TRUE)) +
+Not only do we have body measurements, but the `easting` and `northing` columns provide the geographic coordinates where the pikas were found by researchers. Geographical plotting can be helpful in our analyses. Generally speaking, they can offer a different perspective on our data and can also be easily understood by others. This is key; communicating results is an important part of data science. Let's make a simple scatterplot of the observed pika locations using `ggplot2`.
+
+```{r}
+pika_locations <- ggplot(data = nwt_pikas) +
+  geom_point(aes(x = easting,
+                 y = northing,
+                 color = local_site), alpha = 0.3) +
   theme_minimal() +
-  labs(title = "Location of Pika Samples")
+  labs(title = "Pika Locations, Niwot Ridge LTER", x = "UTM Easting", y = "UTM Northing")
+pika_locations
+```
 
-ggplot(data = nwt_pikas) +
-  stat_density2d(aes(fill = ..level.., x = easting, y = northing), alpha = .5,
-                 geom = "polygon") + 
-  scale_fill_viridis_c()  + 
+Let's try to make a 2D kernel density estimate plot of the locations using [`stat_density_2d`](https://ggplot2.tidyverse.org/reference/geom_density_2d.html) so that we can try to understand where pikas are most concentrated. Note that the `fill = ..level..` argument gives us the gradient on the plot, and the `geom = "polygon"` argument fills the space between the contour lines in with the respective level color.
+
+```{r}
+pika_heat_map <-
+  ggplot(data = nwt_pikas, aes(x = easting, y = northing)) +
+  stat_density_2d(aes(fill = ..level..), geom = "polygon") +  # fill = ..level.. to get gradient and geom = "polygon" to get filled plot instead of contour lines
   theme_minimal() +
-  labs(title = "Location of Pika Samples")
+  labs(title = "Location of Pika Samples in the Niwot Ridge LTER", x = "UTM Easting", y = "UTM Northing")
+pika_heat_map
+```
 
+Although it's cool to see these plots, we still don't have much geographical context. We don't know the terrain of the area and whether or not that has any impact on where pikas are found. One way we can add this to our plots is through the use of the [`ggmap`](https://github.com/dkahle/ggmap) package. `ggmap` allows us to plot static maps from places like [Google Maps](https://www.google.com/maps/) and [Stamen Maps](http://maps.stamen.com/#terrain/12/37.7706/-122.3782). `ggmap` is also easy to use in conjunction with `ggplot2`, making it possible to combine our plots from earlier with any maps produced with `ggmap`. NCEAS has produced a [quick start guide](https://www.nceas.ucsb.edu/sites/default/files/2020-04/ggmapCheatsheet.pdf) for `ggmap` that can help you get started.
+
+First, let's try to plot the general area surrounding the Niwot Ridge LTER. We'll use Stamen Maps since Google Maps requires users to register with Google to use their API. Stamen Maps has different map types, such as watercolor maps and toner maps. We need to create a bounding box consisting of the coordinates of the region that we would like to plot. This takes some trial and error, but the export section of [OpenStreetMap](https://www.openstreetmap.org/export) can help you obtain the coordinates that you need.
+
+```{r}
 nwt <- c(left = -106, bottom = 39.8433, right = -105, top = 40.2339)
+```
 
-pikas_location <-c(left = -105.65, bottom = 40, right = -105.55, top = 40.12)
+Next, we can use `ggmap()` and `get_stamenmap()` to plot our map. `get_stamenmap()` creates a ggmap raster object and is similar to the `get_map(source = "stamen")` function in the NCEAS quick start guide above. `ggmap()` will plot this ggmap raster object. We can specify the `bbox` argument as the `nwt` variable we defined earlier. The `zoom` argument determines the scale of the map, and will also take some trial and error to get right. Finally, Stamen Maps has different map types, such as watercolor, toner, and terrain, that can be used for the `maptype` argument:
 
-ggmap(get_stamenmap(nwt, zoom = 11, maptype = "terrain"))
-test$geometry <- st_set_crs(test$geometry, "+proj=utm +zone=13 +datum=WGS84")
-test$s.sf.gcs <- st_transform(test$geometry, "+proj=longlat +datum=WGS84")
-test$geometry <- test$s.sf.gcs
-ggmap(get_stamenmap(pikas_location, zoom = 11, maptype = "terrain")) + # geom_point(data = test, aes(
-# x = easting,
-# y = northing,
-#  color = local_site,
-# alpha = 1)) 
-#geom_sf(data = test$geometry, alpha = 0.3, inherit.aes = FALSE)
-#geom_sf(data = test, aes(color = local_site, shape = local_site), alpha = 0.3) +
-#  guides(colour = guide_legend(override.aes = list(alpha = 1))) +
-##  scale_x_discrete(guide = guide_axis(check.overlap = TRUE)) +
-#  theme_minimal() +
-#  labs(title = "Location of Pika Samples")
-
- geom_sf(data = test, inherit.aes = FALSE, aes(color = local_site, shape = local_site), alpha = 0.3) +
-  guides(colour = guide_legend(override.aes = list(alpha = 1))) +
-  #scale_x_discrete(guide = guide_axis(check.overlap = TRUE)) +
-  theme_minimal() +
-  labs(title = "Location of Pika Samples")
-
+```{r}
+watercolor_map <- ggmap(get_stamenmap(bbox = nwt, zoom = 10, maptype = "watercolor"))
+watercolor_map 
 ```
 
 ```{r}
-#nwt_pikas %>% count(year) %>% ggplot(aes(x = year, y = n)) +
-#  geom_bar(stat = "identity")
+terrain_map <- ggmap(get_stamenmap(bbox = nwt, zoom = 10, maptype = "terrain"))
+terrain_map
 ```
+
+For our purposes, we'll use the terrain map type. Even though we now know how to plot using `ggmap`, we're not yet ready to add the pika data. Our data's coordinates use the Universal Transverse Mercator (UTM) coordinate reference system, while `ggmap` uses the traditional longitude and latitude system.
+
+To make our pika data more digestible for `ggmap`, we can use the [`sf`](https://r-spatial.github.io/sf/index.html) package. `sf` stands for simple features and makes it more simple to work with spatial geometries and any corresponding attributes that they may have. You can work with geometries like points, lines, and polygons, but we'll work with point data. First, we need to convert our current coordinates into an `sf` object. We can use the `st_as_sf()` function to do this.
+
+```{r}
+nwt_coords <-
+  nwt_pikas %>% filter(!is.na(easting) &
+                         !is.na(northing)) # filter out any null coordinate values
+
+pikas_sf <- st_as_sf(x = nwt_coords, coords = c("easting", "northing"))
+pikas_sf
+pikas_sf$geometry
+st_crs(pikas_sf)
+```
+
+We now have a geometry column consisting of points instead of two separate columns for our coordinates. However, there is still no CRS associated with the geometry. We can assign the UTM CRS to the geometry column using `st_set_crs()` and then convert it to the longitude and latitude system using `st_transform()`.
+
+```{r}
+#TODO: Explain coordinate transformation more
+pikas_sf$geometry <-  pikas_sf$geometry %>% st_set_crs("+proj=utm +zone=13") %>% st_transform("+proj=longlat")
+```
+
+Then we can plot our new data using `ggplot()` and `geom_sf()`.
+
+```{r}
+#TODO: fix x-axis labels
+ggplot(data = pikas_sf) + geom_sf(aes(color = local_site, shape = local_site), alpha = 0.6) +
+  theme_minimal() +
+  labs(title = "Location of Pika Samples, Niwot Ridge LTER", x = "Latitude (Degrees)", y = "Longitude (Degrees)")
+```
+
+Now we can combine our `ggmap()` and our `geom_sf()` plots:
+
+```{r}
+combined_map <- ggmap(get_stamenmap(nwt, zoom = 10, maptype = "terrain")) + 
+ geom_sf(data = pikas_sf, inherit.aes = FALSE, aes(color = local_site, shape = local_site), alpha = 0.3) +
+  theme_minimal() +
+  labs(title = "Location of Pika Samples, Niwot Ridge LTER", x = "Longitude (Degrees)", y = "Latitude (Degrees)")
+combined_map
+```
+Now define a new bounding box and zoom to get a better look and plot again:
+
+```{r}
+pikas_location <- c(left = -105.65, bottom = 40.04, right = -105.55, top = 40.1)
+
+pikas_map <- ggmap(get_stamenmap(pikas_location, zoom = 13, maptype = "terrain")) + 
+ geom_sf(data = pikas_sf, inherit.aes = FALSE, aes(color = local_site, shape = local_site), alpha = 0.3) +
+  theme_minimal() +
+  labs(title = "Location of Pika Samples, Niwot Ridge LTER", x = "Longitude (Degrees)", y = "Latitude (Degrees)")
+pikas_map
+```
+
+Now we can see that most of the Mitchell Lake pikas seem to be found at the bottom of a slope, while many of the West Knoll pikas are found near the top of a hill. Is this because researchers only sampled pikas in these areas, or do pikas prefer living in these areas? These are some of many questions that could only have been asked after plotting the data geographically.
+
+
+As mentioned previously, other attributes associated with each geographic point, such as `fleas_obs` can also be plotted alongside the spatial data. 
+```{r}
+fleas_map <- ggmap(get_stamenmap(pikas_location, zoom = 13, maptype = "terrain")) + 
+ geom_sf(data = pikas_sf, inherit.aes = FALSE, aes(size = fleas_obs), alpha = 0.3) +
+  theme_minimal() +
+  labs(title = "Location of Pika Samples, Niwot Ridge LTER", x = "Longitude (Degrees)", y = "Latitude (Degrees)")
+fleas_map
+```
+
+
 ```{r temps, fig.width = 5, dpi = 100}
 temps <- ggplot(data = nwt_pikas %>% filter(!is.na(sex)), aes(x = rectal_temp, y = weight)) + geom_point(aes(color = sex, shape = sex), alpha = 0.8) +
   theme_minimal() +

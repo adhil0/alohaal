@@ -3,18 +3,30 @@
 \docType{data}
 \name{nwt_pikas}
 \alias{nwt_pikas}
-\title{Niwot Ridge LTER Pikas}
+\title{Pika demography data for west knoll and Indian Peaks wilderness, 2008 - ongoing}
 \format{
-An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 376 rows and 10 columns.
+A tibble with 376 rows and 10 variables
+\describe{
+  \item{local_site}{a factor describing the location where the pika was observed within Niwot Ridge}
+  \item{date}{a date denoting the observation date}
+  \item{easting}{a double denoting the GPS E-W coordinate as UTM easting}
+  \item{northing}{a double denoting the GPS N-S coordinate as UTM northing}
+  \item{weight}{a double denoting the weight of the observed pika in grams}
+  \item{stage}{a factor denoting the developmental stage of the observed pika}
+  \item{sex}{a factor denoting the sex of the observed pika}
+  \item{fleas_obs}{a double denoting the number of fleas observed on the pika}
+  \item{rectal_temp}{a double denoting the rectal temperature of the observed pika in degress Celsius}
+  \item{foot_length}{a double denoting the foot length of the observed pika in millimeters}
+}
 }
 \source{
-{Ray, C. and Niwot Ridge LTER. 2021. Pika demography data for west knoll and Indian Peaks wilderness, 2008 - ongoing ver 4. Environmental Data Initiative. https://doi.org/10.6073/pasta/0a786c99fe3d4e1dfb8c57424ce79091 (Accessed 2021-02-15).}
-\url{https://portal.edirepository.org/nis/mapbrowse?packageid=knb-lter-nwt.8.4}
+{Ray, C. and Niwot Ridge LTER. 2021. Pika demography data for west knoll and Indian Peaks wilderness, 2008 - ongoing ver 4. Environmental Data Initiative.}
+\url{https://doi.org/10.6073/pasta/0a786c99fe3d4e1dfb8c57424ce79091}
 }
 \usage{
 nwt_pikas
 }
 \description{
-Niwot Ridge pika data collected during the summer months
+Niwot Ridge pika demography data collected from 2008-present during June-October. Pikas were captured, anesthetized, given colored ear-tags, non-lethally sampled, and released at point of capture.
 }
 \keyword{datasets}
