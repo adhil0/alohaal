@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup, fig.width = 5, dpi = 100}
-library(lterdatasets)
+library(alohaal) #TODO: Change
 library(tidyverse)
 ```
 
@@ -84,33 +84,33 @@ The average ice duration in Madison is trending downwards. What environmental fa
 
 
 ```{r}
-ntl_temps
+#ntl_temps
 ```
 
 Compute the mean annual temperature:
 
 ```{r}
-ntl_annual_avg <- ntl_temps %>% 
-  group_by(year) %>% 
-  summarise(ave_air_temp_adjusted = mean(ave_air_temp_adjusted))
-ntl_annual_avg
+#ntl_annual_avg <- ntl_temps %>% 
+#  group_by(year) %>% 
+#  summarise(ave_air_temp_adjusted = mean(ave_air_temp_adjusted))
+#ntl_annual_avg
 ```
 Time Series Plot:
 
 ```{r temp, fig.width = 5}
-temp_plot <-
-  ggplot(ntl_annual_avg %>% filter(!is.na(ave_air_temp_adjusted)),
-         aes(x = year, y = ave_air_temp_adjusted)) +
-  geom_line(alpha = 0.7) +
-  theme_minimal() +
-  geom_smooth(
-    method = lm,
-    se = FALSE,
-    color = "blue",
-    linetype = "dashed"
-  ) +
-  labs(y = "Temperature", x = "Year", title = "Mean Annual Temperature in Madison, WI")
-temp_plot
+#temp_plot <-
+#  ggplot(ntl_annual_avg %>% filter(!is.na(ave_air_temp_adjusted)),
+#         aes(x = year, y = ave_air_temp_adjusted)) +
+#  geom_line(alpha = 0.7) +
+#  theme_minimal() +
+#  geom_smooth(
+#    method = lm,
+#    se = FALSE,
+#    color = "blue",
+#    linetype = "dashed"
+#  ) +
+#  labs(y = "Temperature", x = "Year", title = "Mean Annual Temperature in Madison, WI")
+#temp_plot
 ```
 
 There seems to be a general upward trend in the mean annual temperature. As a result, there may be a relationship between temperature and ice duration.
@@ -118,28 +118,28 @@ There seems to be a general upward trend in the mean annual temperature. As a re
 To compare the ice cover and temperature data directly, the ntl_temps and ntl_ice datasets can be joined together. A common variable needs to be identified to do this. In this case, the datasets can be joined on the year of observation. Since there is one temperature for each year in `ntl_annual_avg`, each temperature will be mapped to the corresponding year in the joined table. For example, a `ave_air_temp_adjusted` value of 6.416 degrees Celsius will be added to each row that has a `year` value of 1869.
 
 ```{r}
-ntl_full_join <- ntl_annual_avg %>% 
-  full_join(ntl_ice)
-ntl_full_join
+#ntl_full_join <- ntl_annual_avg %>% 
+#  full_join(ntl_ice)
+#ntl_full_join
 ```
 
 Plot the temperature against the ice duration of each of the three lakes:
 
 ```{r scatter, fig.width = 5}
-scatter <-
-  ggplot(data = ntl_full_join %>%
-           filter(!is.na(ave_air_temp_adjusted) &
-                    !is.na(ice_duration)),
-         aes(y = ice_duration, x = ave_air_temp_adjusted)) + geom_point(alpha = 0.8) +
-  theme_minimal() +
-  labs(title = "Air Temperature and Ice Duration of Lakes in Madison, WI",
-       y = "Ice Duration (Days)", x = "Temperature (Celsius)") + geom_smooth(
-         method = "lm",
-         color = "black",
-         se = FALSE,
-         size = 0.3
-       )
-scatter
+#scatter <-
+# ggplot(data = ntl_full_join %>%
+#           filter(!is.na(ave_air_temp_adjusted) &
+#                    !is.na(ice_duration)),
+#         aes(y = ice_duration, x = ave_air_temp_adjusted)) + geom_point(alpha = 0.8) +
+#  theme_minimal() +
+#  labs(title = "Air Temperature and Ice Duration of Lakes in Madison, WI",
+#       y = "Ice Duration (Days)", x = "Temperature (Celsius)") + geom_smooth(
+#         method = "lm",
+#         color = "black",
+#         se = FALSE,
+#         size = 0.3
+#       )
+#scatter
 ```
 
 It appears that there is a negative correlation between the mean annual temperature and the amount of time that each lake was frozen. This means that as temperature increases, the ice duration decreases.
@@ -148,35 +148,35 @@ It appears that there is a negative correlation between the mean annual temperat
 To compare the temperature with the ice duration on a time-series plot, calculate the percent change in ice duration and temperature from the earliest data point for both variables. The earliest year of observation for ice duration was 1851, and the earliest year of observation for temperature was 1869. These values can be determined from the `avg_ice` and `ntl_annual_avg` dataframes that were calculated earlier. First, join the full dataset with the average ice duration data that we calculated earlier, and then add two columns with the percent changes.
 
 ```{r comparison, fig.width = 5}
-pct_change <-
-  ntl_full_join %>% full_join(avg_ice) %>% mutate(
-    pct_change_temp = (ave_air_temp_adjusted - ntl_annual_avg$ave_air_temp_adjusted[1]) *
-      100 / ntl_annual_avg$ave_air_temp_adjusted[1],
-    pct_change_ice = (avg_ice_duration - avg_ice$avg_ice_duration[1]) * 100 / avg_ice$avg_ice_duration[1]
-  ) %>% select(year, pct_change_temp, pct_change_ice)
+#pct_change <-
+ # ntl_full_join %>% full_join(avg_ice) %>% mutate(
+ #   pct_change_temp = (ave_air_temp_adjusted - ntl_annual_avg$ave_air_temp_adjusted[1]) *
+ #     100 / ntl_annual_avg$ave_air_temp_adjusted[1],
+ #   pct_change_ice = (avg_ice_duration - avg_ice$avg_ice_duration[1]) * 100 / avg_ice$avg_ice_duration[1]
+#  ) %>% select(year, pct_change_temp, pct_change_ice)
 
-pct_change <- unique(arrange(pct_change, year))
+#pct_change <- unique(arrange(pct_change, year))
 ```
 
 Then plot a time series to compare the magnitude in changes in temperature and ice duration. Use the `pivot longer` function so that both lines can easily be plotted on the same axes.
 
 ```{r, fig.width = 5}
-comparison_df <-
-  pct_change  %>% pivot_longer(cols = c(pct_change_ice, pct_change_temp)) 
+#comparison_df <-
+#  pct_change  %>% pivot_longer(cols = c(pct_change_ice, pct_change_temp)) 
 ```
 
 Time Series Plot:
 
 ```{r, fig.width=5}
-comparison_plot <-
-  ggplot(comparison_df %>% filter((name == "pct_change_ice" &
-                                     !is.na(value)) |
-                                    name == "pct_change_temp"),
-         aes(x = year)) +
-  geom_line(aes(y = value, color = name)) +
-  theme_minimal() +
-  labs(x = "Year", y = "Percent Change", title = "Percent Change in Ice Duration and Temperature")
-comparison_plot
+#comparison_plot <-
+#  ggplot(comparison_df %>% filter((name == "pct_change_ice" &
+#                                     !is.na(value)) |
+#                                    name == "pct_change_temp"),
+#         aes(x = year)) +
+#  geom_line(aes(y = value, color = name)) +
+#  theme_minimal() +
+#  labs(x = "Year", y = "Percent Change", title = "Percent Change in Ice Duration and Temperature")
+#comparison_plot
 ```
 
 It appears that the change in ice somewhat mirrors the change in temperature each year, as several spikes in temperature have a corresponding dip in ice duration. This may indicate a relationship between the two variables. 

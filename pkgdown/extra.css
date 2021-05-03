@@ -1,0 +1,94 @@
+/* navbar ----------------------------------------------- */
+
+.navbar {
+  background-color: #565A5C;
+  box-shadow: none !important;
+  border-bottom: 0pt !important;
+  padding-bottom: 1em;
+  padding-top: 1em;
+  color: #4B5439;
+}
+
+.navbar .info .version-danger {
+  font-weight: bold;
+  color: #CFB87C;
+}
+
+.navbar-nav li a {
+  /* text-transform: uppercase;*/
+  letter-spacing: 1pt;
+  font-size: 1em;
+  color: #CFB87C;
+}
+
+.navbar-nav li a:hover {
+  color: #CFB87C !important;
+}
+
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  color: #CFB87C;
+  background-color: #565A5C;
+}
+
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:focus, .navbar-default .navbar-nav > .open > a:hover {
+    color: #CFB87C;
+    background-color: #565A5C;
+}
+
+.navbar-default .navbar-brand .navbar-link,
+.navbar-default .navbar-nav > li > a {
+	color: #CFB87C;
+	background-color: #565A5C;
+}
+
+.label-default {
+    background-color: #CFB87C;
+}
+
+/* White Space */
+
+.row {
+  margin-top: 1.5em;
+}
+
+@media (min-width: 768px) {
+  .contents {
+    padding-right: 4em;
+  }
+}
+
+.contents h1, .contents h2, .conents h3, .contents h4{
+  margin-bottom: 1.3em;
+  margin-top: -30px; /* originally -40px */
+}
+
+/*---- Dropdown menu ----*/
+.dropdown-menu .dropdown-menu > .active {
+    font-size: 16px;
+    text-align: left;
+    list-style: none;
+    background-color: #565A5C;
+}
+
+/* Active, hover, and focus links */
+
+nav[data-toggle='toc'] .nav > .active > a,
+nav[data-toggle='toc'] .nav > .active:hover > a,
+nav[data-toggle='toc'] .nav > .active:focus > a,
+nav[data-toggle='toc'] ul > li > a:hover {
+  border-left: 3px solid #565A5C;
+  padding-left: 10px;
+  text-indent: -2px;
+  letter-spacing: 1pt;
+  font-size: 15px;
+  text-decoration: none !important;
+}
+
+nav[data-toggle='toc'] .nav > li > a:hover,
+nav[data-toggle='toc'] .nav > li > a:focus {
+  padding-left: 10px;
+  border-left: 3px solid #565A5C;
+}
+

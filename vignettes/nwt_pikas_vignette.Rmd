@@ -21,7 +21,7 @@ library(ggmap)
 library(sf)
 ```
 
-```{r}
+
 Researchers at the Niwot Ridge Long Term Ecological Research Site (NWT LTER) seek to study and monitor the health of the Colorado Rockies over time. Because of external factors like climate change, it's more important than ever for scientists to understand how and why the Rockies are changing. Additionally, the state of the Rockies is crucial to local communities like Boulder, CO.
 
 Pikas are a key species present at the NWT LTER. Despite their small size, pikas can be very informative about the health of the ecosystem because of their need for cold temperatures. The health of pikas can reflect the health of the surrounding ecosystem, and as a result, the study of pikas is critical to the study of the Colorado Rockies ecosystem and its health. 
@@ -173,4 +173,4 @@ weights_stage
 ```
 
 # How we processed the raw data
-`r knitr::spin_child(here::here("data-raw", "nwt_stress.R"))`
+`r knitr::spin_child(here::here("data-raw", "nwt_pikas_data.R"))`

@@ -1,0 +1,46 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+library(tidyverse)
+library(alohaal)
+```
+
+# alohaal
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of alohaal is to ...
+
+## Installation
+
+
+And the development version from [GitHub](https://github.com/) with:
+
+```{r}
+# install.packages("devtools")
+#devtools::install_github("adhil0/alohaal")
+```
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r example}
+#library(alohaal)
+## basic example code
+```
+
+| Dataset     | Description                                                                             | Techniques Used  |
+| ----------- | -----------                                                                             | ---------------- |
+| nwt_pikas   | Pika demography data for west knoll and Indian Peaks wilderness, 2008 - ongoing         |ggmap, sf,  ggplot2, spatial plotting |
+| ntl_ice   | North Temperate Lakes LTER: Ice Duration - Madison Lakes Area 1853 - current        | joining datasets, Time Series, line plots                 |

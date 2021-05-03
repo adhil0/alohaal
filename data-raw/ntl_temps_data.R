@@ -4,7 +4,7 @@
 
 #' ### Download the raw data from EDI.org
 
-#+ download_data, eval=FALSE
+#+ download_data_temps, eval=FALSE
 library(usethis)
 library(metajam)
 library(tidyverse)
@@ -21,7 +21,7 @@ ntl_temps_download <-
 
 
 #' ### Data Cleaning
-#+ data sampling, eval=FALSE
+#+ data sampling temps, eval=FALSE
 # Read in data
 ntl_temps_files <- read_d1_files(ntl_temps_download)
 ntl_temps_raw <- ntl_temps_files$data
@@ -32,6 +32,6 @@ ntl_temps <- ntl_temps_raw %>%
   rename(year = year4) %>%
   clean_names()
 
-#+ save data, include = FALSE, eval = FALSE
+#+ save data temps, include = FALSE, eval = FALSE
 # Save sample file
 usethis::use_data(ntl_temps, overwrite = TRUE)
